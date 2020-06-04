@@ -1,7 +1,7 @@
-# Made with love by Karl. Telegram: @karlpy
+# Made with love by Karl
+# Contact me on Telegram: @karlpy
 
-import datetime
-from datetime import datetime as dt
+from datetime import datetime, date, timedelta
 import requests
 from lxml import etree
 import lxml.html as lh
@@ -12,27 +12,48 @@ from pymongo import MongoClient
 # configuration
 stations_file = open('stations.txt', 'r') 
 urls = stations_file.readlines() 
-todays_date = datetime.datetime.today()
-number_of_days = 3
+
+# Date format: YYYY-MM-DD
+start_date = date(2020, 5, 1)
+end_date = date(2020, 6, 1)
 dbclient = MongoClient('localhost:27017')
 wunderground_db = dbclient['wunderground']
+
+def convert():
+    '''
+
+    Fahrenheit --> Celsius
+    (32°F − 32) × 5/9 = 0°C
+
+    mph --> kmh
+    mph  × 1.609 = kmh
+
+    in to hPa
+    in × 33.86389 = hPa
+
+    precipitation in --> mm
+    in × 25.4 = mm
+
+    '''
+
 
 def format_key(key):
     return key.replace(' ','_').replace('.','')
 
-def date_difference(day):
-    return (todays_date - datetime.timedelta(days=day)).strftime("%Y-%m-%d")
+def datetime_range_generator(start, end):
+    span = end - start
+    for i in range(span.days + 1):
+        yield start + timedelta(days=i)
 
-def url_generator(weather_station_url, number_of_days):
-    for day in range(number_of_days):
-        date_string = date_difference(day)
+def date_url_generator(weather_station_url):
+    date_range = datetime_range_generator(start_date, end_date)
+    for date in date_range:
+        date_string = date.strftime("%Y-%m-%d")
         url = f'{weather_station_url}/table/{date_string}/{date_string}/daily'
         yield date_string, url
 
 def scrap_station(weather_station_url):
-
-    url_gen = url_generator(weather_station_url, number_of_days)
-
+    url_gen = date_url_generator(weather_station_url)
     parser = etree.HTMLParser(recover=True)
     session = requests.Session()
     collection_name = f'{weather_station_url}'
@@ -60,8 +81,8 @@ def scrap_station(weather_station_url):
                 # replace time with datetime in first column
                 if i == 0:
                     td_content = f'{date_string} {td_content}'
-                    date_time = dt.strptime(td_content, "%Y-%m-%d %I:%M %p")
-                    row_dict[format_key(headers_list[i])] = td_content
+                    date_time = datetime.strptime(td_content, "%Y-%m-%d %I:%M %p")
+                    row_dict[format_key(headers_list[i])] = date_time
                 else:
                     row_dict[format_key(headers_list[i])] = td_content
             data_rows.append(row_dict)
