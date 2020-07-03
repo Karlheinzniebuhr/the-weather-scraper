@@ -4,26 +4,22 @@
 from util.UnitConverter import ConvertToSystem
 from util.Parser import Parser
 from util.WeatherClass import Weather
+import config
 
 from datetime import datetime, date, timedelta
 import requests, csv
 from lxml import etree
 import lxml.html as lh
 from io import StringIO
-from pymongo import MongoClient
 
 # configuration
-stations_file = open('stations.txt', 'r') 
-urls = stations_file.readlines() 
-
+stations_file = open('stations.txt', 'r')
+URLS = stations_file.readlines()
 # Date format: YYYY-MM-DD
-start_date = date(2020, 5, 1)
-end_date = date(2020, 6, 1)
+START_DATE = config.START_DATE
+END_DATE = config.END_DATE
 # set to "metric" or "imperial"
-unit_system = "metric"
-
-# dbclient = MongoClient('localhost:27017')
-# wunderground_db = dbclient['wunderground']
+UNIT_SYSTEM = config.UNIT_SYSTEM
 
 def datetime_range_generator(start, end):
     span = end - start
@@ -31,7 +27,7 @@ def datetime_range_generator(start, end):
         yield start + timedelta(days=i)
 
 def date_url_generator(weather_station_url):
-    date_range = datetime_range_generator(start_date, end_date)
+    date_range = datetime_range_generator(START_DATE, END_DATE)
     for date in date_range:
         date_string = date.strftime("%Y-%m-%d")
         url = f'{weather_station_url}/table/{date_string}/{date_string}/daily'
@@ -49,10 +45,10 @@ def scrap_station(weather_station_url):
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter=';')
 
         # Write the headers of the CSV
-        if unit_system == "metric":
+        if UNIT_SYSTEM == "metric":
             # 12:04 AM	24.4 C	18.3 C	69 %	SW	0.0 km/h	0.0 km/h	1,013.88 hPa	0.00 mm	0.00 mm	0	0 w/m²
             writer.writerow({'Date': 'Date', 'Time': 'Time',	'Temperature': 'Temperature_C',	'Dew_Point': 'Dew_Point_C',	'Humidity': 'Humidity_%',	'Wind': 'Wind',	'Speed': 'Speed_kmh',	'Gust': 'Gust_kmh',	'Pressure': 'Pressure_hPa',	'Precip_Rate': 'Precip_Rate_mm',	'Precip_Accum': 'Precip_Accum_mm',	'UV': 'UV',   'Solar': 'Solar_w/m2'})
-        elif unit_system == "imperial":
+        elif UNIT_SYSTEM == "imperial":
             # 12:04 AM	75.9 F	65.0 F	69 %	SW	0.0 mph	0.0 mph	29.94 in	0.00 in	0.00 in	0	0 w/m²
             writer.writerow({'Date': 'Date', 'Time': 'Time',	'Temperature': 'Temperature_F',	'Dew_Point': 'Dew_Point_F',	'Humidity': 'Humidity_%',	'Wind': 'Wind',	'Speed': 'Speed_mph',	'Gust': 'Gust_mph',	'Pressure': 'Pressure_in',	'Precip_Rate': 'Precip_Rate_in',	'Precip_Accum': 'Precip_Accum_in',	'UV': 'UV',   'Solar': 'Solar_w/m2'})
         else:
@@ -78,7 +74,7 @@ def scrap_station(weather_station_url):
             # wunderground_db[collection_name].insert_many(data_to_write)
 
 
-for url in urls:
+for url in URLS:
     url = url.strip()
     print(url)
     scrap_station(url)
