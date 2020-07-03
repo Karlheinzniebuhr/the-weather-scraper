@@ -6,4 +6,5 @@ Todo:
   ✔ Finish completing all units converter @done(20-07-03 13:40)
   ✔ Separate DateTime to Date and Time columns @done(20-07-03 13:41)
   ✔ separate config file @done(20-07-03 14:26)
-  ☐ save as excel too
+  ✔ name files with station_names @done(20-07-03 14:46)
+  ✔ add error handling to UnitConverter @done(20-07-03 15:11)

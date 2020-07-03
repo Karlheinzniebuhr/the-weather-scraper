@@ -35,16 +35,16 @@ def date_url_generator(weather_station_url):
 
 def scrap_station(weather_station_url):
     url_gen = date_url_generator(weather_station_url)
-    parser = etree.HTMLParser(recover=True)
     session = requests.Session()
-    collection_name = f'{weather_station_url}'
+    station_name = weather_station_url.split('/')[-1]
+    file_name = f'{station_name}.csv'
 
-    with open('weather_data.csv', 'w', newline='') as csvfile:
+    with open(file_name, 'w', newline='') as csvfile:
         fieldnames = []
         fieldnames = ['Date', 'Time',	'Temperature',	'Dew_Point',	'Humidity',	'Wind',	'Speed',	'Gust',	'Pressure',	'Precip_Rate',	'Precip_Accum',	'UV',   'Solar']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter=';')
 
-        # Write the headers of the CSV
+        # Write the correct headers to the CSV file
         if UNIT_SYSTEM == "metric":
             # 12:04 AM	24.4 C	18.3 C	69 %	SW	0.0 km/h	0.0 km/h	1,013.88 hPa	0.00 mm	0.00 mm	0	0 w/m²
             writer.writerow({'Date': 'Date', 'Time': 'Time',	'Temperature': 'Temperature_C',	'Dew_Point': 'Dew_Point_C',	'Humidity': 'Humidity_%',	'Wind': 'Wind',	'Speed': 'Speed_kmh',	'Gust': 'Gust_kmh',	'Pressure': 'Pressure_hPa',	'Precip_Rate': 'Precip_Rate_mm',	'Precip_Accum': 'Precip_Accum_mm',	'UV': 'UV',   'Solar': 'Solar_w/m2'})
@@ -71,7 +71,6 @@ def scrap_station(weather_station_url):
                 
             print(f'Saving {len(data_to_write)} rows')
             writer.writerows(data_to_write)
-            # wunderground_db[collection_name].insert_many(data_to_write)
 
 
 for url in URLS:

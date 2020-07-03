@@ -14,62 +14,102 @@ class ConvertToSystem:
 
 
     def temperature(self, temp_string: str):
-        fahrenheit = float(re.findall(self.extract_numbers_pattern, temp_string)[0])
-        if self.system == "metric":
-            celsius = (fahrenheit - 32) * 5/9
-            return round(celsius, self.round_to_decimals)
-        else:
-            return fahrenheit
+        try:
+            fahrenheit = float(re.findall(self.extract_numbers_pattern, temp_string)[0]) if temp_string else 'NA'
+            if self.system == "metric":
+                celsius = (fahrenheit - 32) * 5/9
+                return round(celsius, self.round_to_decimals)
+            else:
+                return fahrenheit
+
+        except ValueError as ve:
+            print(ve)
+            return 'NA'
+            
+
+    def dew_point(self, dew_point_string: str):
+        try:
+            fahrenheit = float(re.findall(self.extract_numbers_pattern, dew_point_string)[0]) if dew_point_string else 'NA'
+            if self.system == "metric":
+                celsius = (fahrenheit - 32) * 5/9
+                return round(celsius, self.round_to_decimals)
+            else:
+                return fahrenheit
+            
+        except ValueError as ve:
+            print(ve)
+            return 'NA'
 
 
-    def dew_point(self, dew_point: str):
-        fahrenheit = float(re.findall(self.extract_numbers_pattern, dew_point)[0])
-        if self.system == "metric":
-            celsius = (fahrenheit - 32) * 5/9
-            return round(celsius, self.round_to_decimals)
-        else:
-            return fahrenheit
-
-
-    def humidity(self, humidity: str):
-        humidity = float(re.findall(self.extract_numbers_pattern, humidity)[0])
-        return humidity
+    def humidity(self, humidity_string: str):
+        try:
+            humidity = float(re.findall(self.extract_numbers_pattern, humidity_string)[0]) if humidity_string else 'NA'
+            return humidity
+        
+        except ValueError as ve:
+            print(ve)
+            return 'NA'
 
     
     def speed(self, speed_string):
-        mph = float(re.findall(self.extract_numbers_pattern, speed_string)[0])
-        if self.system == "metric":
-            kmh = mph * 1.609
-            return round(kmh, self.round_to_decimals)
-        else:
-            return mph
+        try:
+            mph = float(re.findall(self.extract_numbers_pattern, speed_string)[0]) if speed_string else 'NA'
+            if self.system == "metric":
+                kmh = mph * 1.609
+                return round(kmh, self.round_to_decimals)
+            else:
+                return mph
+
+        except ValueError as ve:
+            print(ve)
+            return 'NA'
 
     
     def pressure(self, pressure_string):
-        inhg = float(re.findall(self.extract_numbers_pattern, pressure_string)[0])
-        if self.system == "metric":
-            hpa = inhg * 33.86389
-            return round(hpa, self.round_to_decimals)
-        else:
-            return inhg
+        try:
+            inhg = float(re.findall(self.extract_numbers_pattern, pressure_string)[0]) if pressure_string else 'NA'
+            if self.system == "metric":
+                hpa = inhg * 33.86389
+                return round(hpa, self.round_to_decimals)
+            else:
+                return inhg
+                
+        except ValueError as ve:
+            print(ve)
+            return 'NA'
     
     def precipitation(self, precip_string):
-        inches = float(re.findall(self.extract_numbers_pattern, precip_string)[0])
-        if self.system == "metric":
-            mm = inches * 25.4
-            return round(mm, self.round_to_decimals)
-        else:
-            return inches
+        try:
+            inches = float(re.findall(self.extract_numbers_pattern, precip_string)[0]) if precip_string else 'NA'
+            if self.system == "metric":
+                mm = inches * 25.4
+                return round(mm, self.round_to_decimals)
+            else:
+                return inches
+                
+        except ValueError as ve:
+            print(ve)
+            return 'NA'
 
 
     def uv(self, uv_string):
-        measure = float(re.findall(self.extract_numbers_pattern, uv_string)[0])
-        return measure
+        try:
+            measure = float(re.findall(self.extract_numbers_pattern, uv_string)[0]) if uv_string else 'NA'
+            return measure
+            
+        except ValueError as ve:
+            print(ve)
+            return 'NA'
 
 
     def solar(self, solar_string):
-        measure = float(re.findall(self.extract_numbers_pattern, solar_string)[0])
-        return measure
+        try:
+            measure = float(re.findall(self.extract_numbers_pattern, solar_string)[0]) if solar_string else 'NA'
+            return measure
+            
+        except ValueError as ve:
+            print(ve)
+            return 'NA'
 
 
     def convert_dict_list(self, dict_list: list):
