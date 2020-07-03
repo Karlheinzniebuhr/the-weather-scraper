@@ -1,4 +1,4 @@
-# The Weather Scraper (TWS)
+# The Weather Scraper (🌩⛈🌤🌞🌨)
 Need High-resolution Weather Data for Analytics or Machine-learning ? Seek no more.
 
 ## Overview
@@ -34,4 +34,8 @@ Now you are read to run your downloads:
 ```sh
 $ python weather_scraper.py
 ```
-Wait until TWS finishes writing your data to files with this naming pattern ***station_name.csv***!
+Wait until TWS finishes writing your data to files with this naming pattern ***station_name.csv***!  
+
+You resulting CSV file will look something like this (if you give it a nice format)  
+
+![CSV example](https://raw.githubusercontent.com/Karlheinzniebuhr/the-weather-scraper/master/resources/csv.JPG)
