@@ -55,7 +55,7 @@ def scrap_station(weather_station_url):
             raise Exception("please set 'unit_system' to either \"metric\" or \"imperial\"! ")
 
         for date_string, url in url_gen:
-            print(f'get url: {url}')
+            print(f'getting 🌞 🌨 ⛈ from {url}')
             html_string = session.get(url)
             doc = lh.fromstring(html_string.content)
             history_table = doc.xpath('//*[@id="inner-content"]/section[1]/div[1]/div/div/div/div/lib-history/div[2]/lib-history-table/div/div/div/table/tbody')
@@ -66,7 +66,7 @@ def scrap_station(weather_station_url):
             data_rows = Parser.parse_html_table_row(date_string, history_table)
 
             # convert to metric system
-            converter = ConvertToSystem("metric")
+            converter = ConvertToSystem(UNIT_SYSTEM)
             data_to_write = converter.convert_dict_list(data_rows)
                 
             print(f'Saving {len(data_to_write)} rows')

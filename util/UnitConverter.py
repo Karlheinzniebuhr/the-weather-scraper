@@ -2,7 +2,7 @@ import re
 
 
 class ConvertToSystem:
-    supported_systems = ["metric"]
+    supported_systems = ["metric", "imperial"]
     round_to_decimals = 2
     extract_numbers_pattern = "\d*\.\d+|\d+"
 
