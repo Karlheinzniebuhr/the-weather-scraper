@@ -1,12 +1,15 @@
 # Made with love by Karl
 # Contact me on Telegram: @karlpy
 
+from util.UnitConverter import ConvertToSystem
+from util.Parser import Parser
+from util.WeatherClass import Weather
+
 from datetime import datetime, date, timedelta
-import requests
+import requests, csv
 from lxml import etree
 import lxml.html as lh
 from io import StringIO
-import unicodedata
 from pymongo import MongoClient
 
 # configuration
@@ -16,29 +19,11 @@ urls = stations_file.readlines()
 # Date format: YYYY-MM-DD
 start_date = date(2020, 5, 1)
 end_date = date(2020, 6, 1)
-dbclient = MongoClient('localhost:27017')
-wunderground_db = dbclient['wunderground']
+# set to "metric" or "imperial"
+unit_system = "metric"
 
-def convert():
-    '''
-
-    Fahrenheit --> Celsius
-    (32°F − 32) × 5/9 = 0°C
-
-    mph --> kmh
-    mph  × 1.609 = kmh
-
-    in to hPa
-    in × 33.86389 = hPa
-
-    precipitation in --> mm
-    in × 25.4 = mm
-
-    '''
-
-
-def format_key(key):
-    return key.replace(' ','_').replace('.','')
+# dbclient = MongoClient('localhost:27017')
+# wunderground_db = dbclient['wunderground']
 
 def datetime_range_generator(start, end):
     span = end - start
@@ -58,37 +43,40 @@ def scrap_station(weather_station_url):
     session = requests.Session()
     collection_name = f'{weather_station_url}'
 
-    for date_string, url in url_gen:
-        print(f'get url: {url}')
-        html_string = session.get(url)
-        doc = lh.fromstring(html_string.content)
-        history_table = doc.xpath('//*[@id="inner-content"]/section[1]/div[1]/div/div/div/div/lib-history/div[2]/lib-history-table/div/div/div/table/tbody')
-        if not history_table:
-            continue
-        tr_elements = [tr for tr in history_table[0].xpath('//tr') if len(tr) == 12]
-        headers_list = []
-        data_rows = []
+    with open('weather_data.csv', 'w', newline='') as csvfile:
+        fieldnames = []
+        fieldnames = ['Date', 'Time',	'Temperature',	'Dew_Point',	'Humidity',	'Wind',	'Speed',	'Gust',	'Pressure',	'Precip_Rate',	'Precip_Accum',	'UV',   'Solar']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter=';')
 
-        # set Table Headers
-        for header in tr_elements[0]:
-            headers_list.append(header.text)
+        # Write the headers of the CSV
+        if unit_system == "metric":
+            # 12:04 AM	24.4 C	18.3 C	69 %	SW	0.0 km/h	0.0 km/h	1,013.88 hPa	0.00 mm	0.00 mm	0	0 w/m²
+            writer.writerow({'Date': 'Date', 'Time': 'Time',	'Temperature': 'Temperature_C',	'Dew_Point': 'Dew_Point_C',	'Humidity': 'Humidity_%',	'Wind': 'Wind',	'Speed': 'Speed_kmh',	'Gust': 'Gust_kmh',	'Pressure': 'Pressure_hPa',	'Precip_Rate': 'Precip_Rate_mm',	'Precip_Accum': 'Precip_Accum_mm',	'UV': 'UV',   'Solar': 'Solar_w/m2'})
+        elif unit_system == "imperial":
+            # 12:04 AM	75.9 F	65.0 F	69 %	SW	0.0 mph	0.0 mph	29.94 in	0.00 in	0.00 in	0	0 w/m²
+            writer.writerow({'Date': 'Date', 'Time': 'Time',	'Temperature': 'Temperature_F',	'Dew_Point': 'Dew_Point_F',	'Humidity': 'Humidity_%',	'Wind': 'Wind',	'Speed': 'Speed_mph',	'Gust': 'Gust_mph',	'Pressure': 'Pressure_in',	'Precip_Rate': 'Precip_Rate_in',	'Precip_Accum': 'Precip_Accum_in',	'UV': 'UV',   'Solar': 'Solar_w/m2'})
+        else:
+            raise Exception("please set 'unit_system' to either \"metric\" or \"imperial\"! ")
 
-        for tr in tr_elements[1:]:
-            row_dict = {}
-            for i, td in enumerate(tr.getchildren()):
-                td_content = unicodedata.normalize("NFKD", td.text_content())
+        for date_string, url in url_gen:
+            print(f'get url: {url}')
+            html_string = session.get(url)
+            doc = lh.fromstring(html_string.content)
+            history_table = doc.xpath('//*[@id="inner-content"]/section[1]/div[1]/div/div/div/div/lib-history/div[2]/lib-history-table/div/div/div/table/tbody')
+            if not history_table:
+                raise Exception('Table not found, please update xpath!')
 
-                # replace time with datetime in first column
-                if i == 0:
-                    td_content = f'{date_string} {td_content}'
-                    date_time = datetime.strptime(td_content, "%Y-%m-%d %I:%M %p")
-                    row_dict[format_key(headers_list[i])] = date_time
-                else:
-                    row_dict[format_key(headers_list[i])] = td_content
-            data_rows.append(row_dict)
+            # parse html table rows
+            data_rows = Parser.parse_html_table_row(date_string, history_table)
 
-        print(f'Saving {len(data_rows)} rows')
-        wunderground_db[collection_name].insert_many(data_rows)
+            # convert to metric system
+            converter = ConvertToSystem("metric")
+            data_to_write = converter.convert_dict_list(data_rows)
+                
+            print(f'Saving {len(data_to_write)} rows')
+            writer.writerows(data_to_write)
+            # wunderground_db[collection_name].insert_many(data_to_write)
+
 
 for url in urls:
     url = url.strip()

@@ -2,4 +2,8 @@
 Todo:
   ✔ Add date to saved values @done(20-05-15 19:26)
   ✔ Add From - To Date Range Option @done(20-06-03 22:01)
-  ☐ Add units converter
+  ✔ Write CSV file @done(20-07-03 10:40)
+  ✔ Finish completing all units converter @done(20-07-03 13:40)
+  ✔ Separate DateTime to Date and Time columns @done(20-07-03 13:41)
+  ☐ separate config file
+  ☐ save as excel too
