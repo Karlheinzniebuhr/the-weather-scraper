@@ -22,8 +22,8 @@ class ConvertToSystem:
             else:
                 return fahrenheit
 
-        except ValueError as ve:
-            print(ve)
+        except Exception as e:
+            print(f'{e}! probably caused by an empty row in the data')
             return 'NA'
             
 
@@ -36,8 +36,8 @@ class ConvertToSystem:
             else:
                 return fahrenheit
             
-        except ValueError as ve:
-            print(ve)
+        except Exception as e:
+            print(f'{e}! probably caused by an empty row in the data')
             return 'NA'
 
 
@@ -46,8 +46,8 @@ class ConvertToSystem:
             humidity = float(re.findall(self.extract_numbers_pattern, humidity_string)[0]) if humidity_string else 'NA'
             return humidity
         
-        except ValueError as ve:
-            print(ve)
+        except Exception as e:
+            print(f'{e}! probably caused by an empty row in the data')
             return 'NA'
 
     
@@ -60,8 +60,8 @@ class ConvertToSystem:
             else:
                 return mph
 
-        except ValueError as ve:
-            print(ve)
+        except Exception as e:
+            print(f'{e}! probably caused by an empty row in the data')
             return 'NA'
 
     
@@ -74,8 +74,8 @@ class ConvertToSystem:
             else:
                 return inhg
                 
-        except ValueError as ve:
-            print(ve)
+        except Exception as e:
+            print(f'{e}! probably caused by an empty row in the data')
             return 'NA'
     
     def precipitation(self, precip_string):
@@ -87,8 +87,8 @@ class ConvertToSystem:
             else:
                 return inches
                 
-        except ValueError as ve:
-            print(ve)
+        except Exception as e:
+            print(f'{e}! probably caused by an empty row in the data')
             return 'NA'
 
 
@@ -97,8 +97,8 @@ class ConvertToSystem:
             measure = float(re.findall(self.extract_numbers_pattern, uv_string)[0]) if uv_string else 'NA'
             return measure
             
-        except ValueError as ve:
-            print(ve)
+        except Exception as e:
+            print(f'{e}! probably caused by an empty row in the data')
             return 'NA'
 
 
@@ -107,8 +107,8 @@ class ConvertToSystem:
             measure = float(re.findall(self.extract_numbers_pattern, solar_string)[0]) if solar_string else 'NA'
             return measure
             
-        except ValueError as ve:
-            print(ve)
+        except Exception as e:
+            print(f'{e}! probably caused by an empty row in the data')
             return 'NA'
 
 
