@@ -27,10 +27,10 @@ class Parser:
 
                 # set date and time in the first 2 columns
                 if i == 0:
-                    td_content = f'{date_string} {td_content}'
-                    date_time = datetime.strptime(td_content, "%Y-%m-%d %I:%M %p")
-                    row_dict['Date'] = date_time.strftime('%m/%d/%Y')
-                    row_dict['Time'] = date_time.strftime('%I:%M %p')
+                    date = datetime.strptime(date_string, "%Y-%m-%d")
+                    time = datetime.strptime(td_content, "%I:%M %p")
+                    row_dict['Date'] = date.strftime('%Y/%m/%d')
+                    row_dict['Time'] = time.strftime('%I:%M %p')
                 else:
                     row_dict[Parser.format_key(headers_list[i])] = td_content
 
