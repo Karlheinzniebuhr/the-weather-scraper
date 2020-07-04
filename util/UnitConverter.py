@@ -51,7 +51,7 @@ class ConvertToSystem:
             return 'NA'
 
     
-    def speed(self, speed_string):
+    def speed(self, speed_string: str):
         try:
             mph = float(re.findall(self.extract_numbers_pattern, speed_string)[0]) if speed_string else 'NA'
             if self.system == "metric":
@@ -65,7 +65,7 @@ class ConvertToSystem:
             return 'NA'
 
     
-    def pressure(self, pressure_string):
+    def pressure(self, pressure_string: str):
         try:
             inhg = float(re.findall(self.extract_numbers_pattern, pressure_string)[0]) if pressure_string else 'NA'
             if self.system == "metric":
@@ -78,7 +78,7 @@ class ConvertToSystem:
             print(f'{e}! probably caused by an empty row in the data')
             return 'NA'
     
-    def precipitation(self, precip_string):
+    def precipitation(self, precip_string: str):
         try:
             inches = float(re.findall(self.extract_numbers_pattern, precip_string)[0]) if precip_string else 'NA'
             if self.system == "metric":
@@ -92,7 +92,7 @@ class ConvertToSystem:
             return 'NA'
 
 
-    def uv(self, uv_string):
+    def uv(self, uv_string: str):
         try:
             measure = float(re.findall(self.extract_numbers_pattern, uv_string)[0]) if uv_string else 'NA'
             return measure
@@ -102,7 +102,7 @@ class ConvertToSystem:
             return 'NA'
 
 
-    def solar(self, solar_string):
+    def solar(self, solar_string: str):
         try:
             measure = float(re.findall(self.extract_numbers_pattern, solar_string)[0]) if solar_string else 'NA'
             return measure
