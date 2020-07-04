@@ -8,3 +8,4 @@ Todo:
   ✔ separate config file @done(20-07-03 14:26)
   ✔ name files with station_names @done(20-07-03 14:46)
   ✔ add error handling to UnitConverter @done(20-07-03 15:11)
+  ☐ See if there is a way to start downloading from first available date

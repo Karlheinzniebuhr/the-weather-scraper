@@ -21,13 +21,13 @@ END_DATE = config.END_DATE
 # set to "metric" or "imperial"
 UNIT_SYSTEM = config.UNIT_SYSTEM
 
-def datetime_range_generator(start, end):
+def date_range_generator(start, end):
     span = end - start
     for i in range(span.days + 1):
         yield start + timedelta(days=i)
 
 def date_url_generator(weather_station_url):
-    date_range = datetime_range_generator(START_DATE, END_DATE)
+    date_range = date_range_generator(START_DATE, END_DATE)
     for date in date_range:
         date_string = date.strftime("%Y-%m-%d")
         url = f'{weather_station_url}/table/{date_string}/{date_string}/daily'

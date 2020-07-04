@@ -1,6 +1,5 @@
 import unicodedata
 from datetime import datetime, date, timedelta
-from util.WeatherClass import Weather
 
 
 class Parser:
