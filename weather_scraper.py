@@ -3,7 +3,6 @@
 
 from util.UnitConverter import ConvertToSystem
 from util.Parser import Parser
-from util.WeatherClass import Weather
 import config
 
 from datetime import datetime, date, timedelta
