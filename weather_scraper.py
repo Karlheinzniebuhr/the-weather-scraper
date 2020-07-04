@@ -41,7 +41,7 @@ def scrap_station(weather_station_url):
     with open(file_name, 'w', newline='') as csvfile:
         fieldnames = []
         fieldnames = ['Date', 'Time',	'Temperature',	'Dew_Point',	'Humidity',	'Wind',	'Speed',	'Gust',	'Pressure',	'Precip_Rate',	'Precip_Accum',	'UV',   'Solar']
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter=';')
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
         # Write the correct headers to the CSV file
         if UNIT_SYSTEM == "metric":
