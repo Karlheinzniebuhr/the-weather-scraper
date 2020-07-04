@@ -112,7 +112,7 @@ class ConvertToSystem:
             return 'NA'
 
 
-    def convert_dict_list(self, dict_list: list):
+    def clean_and_convert(self, dict_list: list):
         converted_dict_list = []
         for dict in dict_list:
             converted_dict = {}

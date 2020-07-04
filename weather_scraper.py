@@ -66,7 +66,7 @@ def scrap_station(weather_station_url):
 
             # convert to metric system
             converter = ConvertToSystem(UNIT_SYSTEM)
-            data_to_write = converter.convert_dict_list(data_rows)
+            data_to_write = converter.clean_and_convert(data_rows)
                 
             print(f'Saving {len(data_to_write)} rows')
             writer.writerows(data_to_write)
