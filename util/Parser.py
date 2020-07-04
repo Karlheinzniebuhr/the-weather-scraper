@@ -10,7 +10,7 @@ class Parser:
 
 
     @staticmethod
-    def parse_html_table_row(date_string: str, history_table: list) -> dict:
+    def parse_html_table(date_string: str, history_table: list) -> dict:
 
         table_rows = [tr for tr in history_table[0].xpath('//tr') if len(tr) == 12]
         headers_list = []
@@ -25,7 +25,7 @@ class Parser:
             for i, td in enumerate(tr.getchildren()):
                 td_content = unicodedata.normalize("NFKD", td.text_content())
 
-                # replace time with datetime in first column
+                # set date and time in the first 2 columns
                 if i == 0:
                     td_content = f'{date_string} {td_content}'
                     date_time = datetime.strptime(td_content, "%Y-%m-%d %I:%M %p")

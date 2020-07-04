@@ -62,7 +62,7 @@ def scrap_station(weather_station_url):
                 raise Exception('Table not found, please update xpath!')
 
             # parse html table rows
-            data_rows = Parser.parse_html_table_row(date_string, history_table)
+            data_rows = Parser.parse_html_table(date_string, history_table)
 
             # convert to metric system
             converter = ConvertToSystem(UNIT_SYSTEM)
