@@ -4,6 +4,11 @@ Need High-resolution Weather Data for Analytics or Machine-learning ? Seek no mo
 ## Overview
 The Weather Scraper downloads download high-resolution weather data (often 5 min. intervals) from Wunderground's public weather stations around the world for you.
 
+#### Install dependencies
+```python
+pip install requests lxml
+```
+
 ### How to run TWS?
 First, find  the weather stations you are looking for.  
 Then you just have to update 2 config files before running TWS. 
