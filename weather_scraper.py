@@ -5,11 +5,10 @@ from util.UnitConverter import ConvertToSystem
 from util.Parser import Parser
 import config
 
-from datetime import datetime, date, timedelta
-import requests, csv
-from lxml import etree
+from datetime import timedelta
+import requests
+import csv
 import lxml.html as lh
-from io import StringIO
 
 # configuration
 stations_file = open('stations.txt', 'r')
@@ -20,10 +19,12 @@ END_DATE = config.END_DATE
 # set to "metric" or "imperial"
 UNIT_SYSTEM = config.UNIT_SYSTEM
 
+
 def date_range_generator(start, end):
     span = end - start
     for i in range(span.days + 1):
         yield start + timedelta(days=i)
+
 
 def date_url_generator(weather_station_url):
     date_range = date_range_generator(START_DATE, END_DATE)
@@ -31,6 +32,7 @@ def date_url_generator(weather_station_url):
         date_string = date.strftime("%Y-%m-%d")
         url = f'{weather_station_url}/table/{date_string}/{date_string}/daily'
         yield date_string, url
+
 
 def scrap_station(weather_station_url):
     url_gen = date_url_generator(weather_station_url)

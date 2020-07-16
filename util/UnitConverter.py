@@ -12,7 +12,6 @@ class ConvertToSystem:
         else:
             self.system = system
 
-
     def temperature(self, temp_string: str):
         try:
             fahrenheit = float(re.findall(self.extract_numbers_pattern, temp_string)[0]) if temp_string else 'NA'
@@ -26,7 +25,6 @@ class ConvertToSystem:
             print(f'{e}! probably caused by an empty row in the data')
             return 'NA'
             
-
     def dew_point(self, dew_point_string: str):
         try:
             fahrenheit = float(re.findall(self.extract_numbers_pattern, dew_point_string)[0]) if dew_point_string else 'NA'
@@ -40,7 +38,6 @@ class ConvertToSystem:
             print(f'{e}! probably caused by an empty row in the data')
             return 'NA'
 
-
     def humidity(self, humidity_string: str):
         try:
             humidity = float(re.findall(self.extract_numbers_pattern, humidity_string)[0]) if humidity_string else 'NA'
@@ -50,7 +47,6 @@ class ConvertToSystem:
             print(f'{e}! probably caused by an empty row in the data')
             return 'NA'
 
-    
     def speed(self, speed_string: str):
         try:
             mph = float(re.findall(self.extract_numbers_pattern, speed_string)[0]) if speed_string else 'NA'
@@ -64,7 +60,6 @@ class ConvertToSystem:
             print(f'{e}! probably caused by an empty row in the data')
             return 'NA'
 
-    
     def pressure(self, pressure_string: str):
         try:
             inhg = float(re.findall(self.extract_numbers_pattern, pressure_string)[0]) if pressure_string else 'NA'
@@ -91,7 +86,6 @@ class ConvertToSystem:
             print(f'{e}! probably caused by an empty row in the data')
             return 'NA'
 
-
     def uv(self, uv_string: str):
         try:
             measure = float(re.findall(self.extract_numbers_pattern, uv_string)[0]) if uv_string else 'NA'
@@ -101,7 +95,6 @@ class ConvertToSystem:
             print(f'{e}! probably caused by an empty row in the data')
             return 'NA'
 
-
     def solar(self, solar_string: str):
         try:
             measure = float(re.findall(self.extract_numbers_pattern, solar_string)[0]) if solar_string else 'NA'
@@ -110,7 +103,6 @@ class ConvertToSystem:
         except Exception as e:
             print(f'{e}! probably caused by an empty row in the data')
             return 'NA'
-
 
     def clean_and_convert(self, dict_list: list):
         converted_dict_list = []
