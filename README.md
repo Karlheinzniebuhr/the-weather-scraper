@@ -21,7 +21,7 @@ Then you just have to update 2 config files before running TWS.
    🌞 Click on a weather station and then click on the **Station ID** (the Station Summary page will open)
    🌞 Open and copy all Station ID URLs you need
 
-2. Set the weather_station urls inside **stations.txt**
+2. Set the weather station urls inside **stations.txt**
    🌞 _one url per line!_
 
 3. Inside **config.py**
@@ -46,7 +46,7 @@ Now you are read to run your downloads:
 $ python weather_scraper.py
 ```
 
-Wait until TWS finishes writing your data to files with this naming pattern **_station_name.csv_**!
+Wait until TWS finishes writing your data to files with this naming pattern **_station_name.csv_** inside the `data` directory!
 
 You resulting CSV file will look something like this (if you give it a nice format)
 
