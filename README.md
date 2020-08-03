@@ -51,3 +51,11 @@ Wait until TWS finishes writing your data to files with this naming pattern **_s
 You resulting CSV file will look something like this (if you give it a nice format)
 
 ![CSV example](https://raw.githubusercontent.com/Karlheinzniebuhr/the-weather-scraper/master/resources/csv.JPG)
+
+## Docker
+
+You can use Docker to run this script without having to have Python installed.
+
+```sh
+docker-compose up --build
+```
