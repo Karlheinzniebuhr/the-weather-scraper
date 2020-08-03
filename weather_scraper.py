@@ -36,7 +36,7 @@ def scrap_station(weather_station_url):
     url_gen = date_url_generator(weather_station_url)
     session = requests.Session()
     station_name = weather_station_url.split('/')[-1]
-    file_name = f'{station_name}.csv'
+    file_name = f'./data/{station_name}.csv'
 
     with open(file_name, 'w', newline='') as csvfile:
         fieldnames = []
@@ -67,7 +67,7 @@ def scrap_station(weather_station_url):
             # convert to metric system
             converter = ConvertToSystem(UNIT_SYSTEM)
             data_to_write = converter.clean_and_convert(data_rows)
-                
+
             print(f'Saving {len(data_to_write)} rows')
             writer.writerows(data_to_write)
 
