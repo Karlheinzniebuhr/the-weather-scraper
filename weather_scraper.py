@@ -1,14 +1,15 @@
 # Made with love by Karl
 # Contact me on Telegram: @karlpy
 
-from util.UnitConverter import ConvertToSystem
-from util.Parser import Parser
-import config
-
-from datetime import timedelta
 import requests
 import csv
 import lxml.html as lh
+
+import config
+
+from util.UnitConverter import ConvertToSystem
+from util.Parser import Parser
+from util.Utils import Utils
 
 # configuration
 stations_file = open('stations.txt', 'r')
@@ -16,32 +17,33 @@ URLS = stations_file.readlines()
 # Date format: YYYY-MM-DD
 START_DATE = config.START_DATE
 END_DATE = config.END_DATE
+
 # set to "metric" or "imperial"
 UNIT_SYSTEM = config.UNIT_SYSTEM
-
-
-def date_range_generator(start, end):
-    span = end - start
-    for i in range(span.days + 1):
-        yield start + timedelta(days=i)
-
-
-def date_url_generator(weather_station_url):
-    date_range = date_range_generator(START_DATE, END_DATE)
-    for date in date_range:
-        date_string = date.strftime("%Y-%m-%d")
-        url = f'{weather_station_url}/table/{date_string}/{date_string}/daily'
-        yield date_string, url
+# find the first data entry automatically
+FIND_FIRST_DATE = config.FIND_FIRST_DATE
 
 
 def scrap_station(weather_station_url):
-    url_gen = date_url_generator(weather_station_url)
+
     session = requests.Session()
+    global START_DATE
+    global END_DATE
+    global UNIT_SYSTEM
+    global FIND_FIRST_DATE
+
+    if FIND_FIRST_DATE:
+        # find first date
+        first_date_with_data = Utils.find_first_data_entry(weather_station_url=weather_station_url, start_date=START_DATE)
+        # if first date found
+        if(first_date_with_data != -1):
+            START_DATE = first_date_with_data
+    
+    url_gen = Utils.date_url_generator(weather_station_url, START_DATE, END_DATE)
     station_name = weather_station_url.split('/')[-1]
     file_name = f'{station_name}.csv'
 
-    with open(file_name, 'w', newline='') as csvfile:
-        fieldnames = []
+    with open(file_name, 'a+', newline='') as csvfile:
         fieldnames = ['Date', 'Time',	'Temperature',	'Dew_Point',	'Humidity',	'Wind',	'Speed',	'Gust',	'Pressure',	'Precip_Rate',	'Precip_Accum',	'UV',   'Solar']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
@@ -56,22 +58,26 @@ def scrap_station(weather_station_url):
             raise Exception("please set 'unit_system' to either \"metric\" or \"imperial\"! ")
 
         for date_string, url in url_gen:
-            print(f'getting 🌞 🌨 ⛈ from {url}')
-            html_string = session.get(url)
-            doc = lh.fromstring(html_string.content)
-            history_table = doc.xpath('//*[@id="inner-content"]/section[1]/div[1]/div/div/div/div/lib-history/div[2]/lib-history-table/div/div/div/table/tbody')
-            if not history_table:
-                raise Exception('Table not found, please update xpath!')
+            try:
+                print(f'getting 🌞 🌨 ⛈ from {url}')
+                history_table = False
+                while not history_table:
+                    html_string = session.get(url)
+                    doc = lh.fromstring(html_string.content)
+                    history_table = doc.xpath('//*[@id="inner-content"]/section[1]/div[1]/div/div/div/div/lib-history/div[2]/lib-history-table/div/div/div/table/tbody')
 
-            # parse html table rows
-            data_rows = Parser.parse_html_table(date_string, history_table)
+                # parse html table rows
+                data_rows = Parser.parse_html_table(date_string, history_table)
 
-            # convert to metric system
-            converter = ConvertToSystem(UNIT_SYSTEM)
-            data_to_write = converter.clean_and_convert(data_rows)
-                
-            print(f'Saving {len(data_to_write)} rows')
-            writer.writerows(data_to_write)
+                # convert to metric system
+                converter = ConvertToSystem(UNIT_SYSTEM)
+                data_to_write = converter.clean_and_convert(data_rows)
+                    
+                print(f'Saving {len(data_to_write)} rows')
+                writer.writerows(data_to_write)
+            except Exception as e:
+                print(e)
+
 
 
 for url in URLS:

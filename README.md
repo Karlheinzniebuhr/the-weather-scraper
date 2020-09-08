@@ -6,7 +6,7 @@ The Weather Scraper downloads download high-resolution weather data (often 5 min
 
 #### Install dependencies
 ```python
-pip install requests lxml
+pip install -r requirements.txt
 ```
 
 ### How to run TWS?
@@ -23,6 +23,7 @@ Then you just have to update 2 config files before running TWS.
 3. Inside **config.py**  
     🌞 Set the date-range you want to download your data from  
     🌞 Set the unit system you need (metric / imperial)  
+    🌞 Set FIND_FIRST_DATE to true if you want the weather scraper to automatically find the first data entries  
 
 If you want to download data from 2020/5/1 to 2020/6/1 in metric units your config.py will look like this:
 ```python

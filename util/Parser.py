@@ -6,8 +6,7 @@ class Parser:
     @staticmethod
     def format_key(key: str) -> str:
         # Replace white space and delete dots
-        return key.replace(' ','_').replace('.','')
-
+        return key.replace(' ', '_').replace('.', '')
 
     @staticmethod
     def parse_html_table(date_string: str, history_table: list) -> dict:
