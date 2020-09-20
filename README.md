@@ -36,7 +36,7 @@ END_DATE = date(2020, 6, 1)
 UNIT_SYSTEM = "metric"
 
 # Automatically find first date where data is logged
-FIND_FIRST_DATE = True
+FIND_FIRST_DATE = False
 ```
 
 Now you are read to run your downloads:
