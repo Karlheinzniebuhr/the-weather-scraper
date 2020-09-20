@@ -34,6 +34,9 @@ START_DATE = date(2020, 5, 1)
 END_DATE = date(2020, 6, 1)
 # set to "metric" or "imperial"
 UNIT_SYSTEM = "metric"
+
+# Automatically find first date where data is logged
+FIND_FIRST_DATE = True
 ```
 
 Now you are read to run your downloads:
