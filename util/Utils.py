@@ -77,7 +77,7 @@ class Utils:
 
 
     @classmethod
-    def find_first_data_entry(cls, weather_station_url, start_date = date(1990, 1, 1)):
+    def find_first_data_entry(cls, weather_station_url, start_date):
         """
             Given a station URL, finds the first date_url where data exists.
         """
