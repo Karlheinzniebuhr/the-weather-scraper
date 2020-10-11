@@ -9,6 +9,11 @@ The Weather Scraper downloads download high-resolution weather data (often 5 min
 pip install -r requirements.txt
 ```
 
+#### TLDR
+```python
+python weather_scraper.py
+```  
+
 ### How to run TWS?
 First, find  the weather stations you are looking for.  
 Then you just have to update 2 config files before running TWS. 
