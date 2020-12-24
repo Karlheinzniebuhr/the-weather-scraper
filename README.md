@@ -2,7 +2,7 @@
 Need High-resolution Weather Data for Analytics or Machine-learning ? Seek no more.
 
 ## Overview
-The Weather Scraper downloads download high-resolution weather data (often 5 min. intervals) from Wunderground's public weather stations around the world for you.
+The Weather Scraper downloads high-resolution weather data (often 5 min. intervals) from Wunderground's public weather stations around the world for you.
 
 #### Install dependencies
 ```python
