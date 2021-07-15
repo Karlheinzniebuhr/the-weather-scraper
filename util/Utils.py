@@ -39,7 +39,7 @@ class Utils:
         """
         html_string = cls.session.get(url)
         doc = lh.fromstring(html_string.content)
-        data_table = doc.xpath('//*[@id="inner-content"]/section[1]/div[1]/div/div/div/div/lib-history/div[2]/lib-history-table/div/div/div/table/tbody/tr')
+        data_table = doc.xpath('//*[@id="main-page-content"]/div/div/div/lib-history/div[2]/lib-history-table/div/div/div/table/tbody/tr')
         if data_table != []:
             return True
         else:
