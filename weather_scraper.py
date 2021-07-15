@@ -27,6 +27,7 @@ FIND_FIRST_DATE = config.FIND_FIRST_DATE
 def scrap_station(weather_station_url):
 
     session = requests.Session()
+    timeout = 5
     global START_DATE
     global END_DATE
     global UNIT_SYSTEM
@@ -62,7 +63,7 @@ def scrap_station(weather_station_url):
                 print(f'getting 🌞 🌨 ⛈ from {url}')
                 history_table = False
                 while not history_table:
-                    html_string = session.get(url)
+                    html_string = session.get(url, timeout=timeout)
                     doc = lh.fromstring(html_string.content)
                     history_table = doc.xpath('//*[@id="main-page-content"]/div/div/div/lib-history/div[2]/lib-history-table/div/div/div/table/tbody')
                     if not history_table:
