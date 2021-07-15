@@ -60,14 +60,15 @@ def scrap_station(weather_station_url):
 
         for date_string, url in url_gen:
             try:
-                print(f'getting 🌞 🌨 ⛈ from {url}')
+                print(f'🌞 🌨 ⛈ from {url}')
                 history_table = False
                 while not history_table:
                     html_string = session.get(url, timeout=timeout)
                     doc = lh.fromstring(html_string.content)
                     history_table = doc.xpath('//*[@id="main-page-content"]/div/div/div/lib-history/div[2]/lib-history-table/div/div/div/table/tbody')
                     if not history_table:
-                        print("didn't find the data table, xpath update might be needed")
+                        print("refreshing session")
+                        session = requests.Session()
 
 
                 # parse html table rows
