@@ -61,11 +61,13 @@ def scrap_station(weather_station_url):
             try:
                 print(f'getting 🌞 🌨 ⛈ from {url}')
                 history_table = False
-                html_string = session.get(url)
-                doc = lh.fromstring(html_string.content)
-                history_table = doc.xpath('//*[@id="main-page-content"]/div/div/div/lib-history/div[2]/lib-history-table/div/div/div/table/tbody')
-                if not history_table:
-                    raise Exception('Table not found, please update xpath!')
+                while not history_table:
+                    html_string = session.get(url)
+                    doc = lh.fromstring(html_string.content)
+                    history_table = doc.xpath('//*[@id="main-page-content"]/div/div/div/lib-history/div[2]/lib-history-table/div/div/div/table/tbody')
+                    if not history_table:
+                        print("didn't find the data table, xpath update might be needed")
+
 
                 # parse html table rows
                 data_rows = Parser.parse_html_table(date_string, history_table)
