@@ -60,7 +60,7 @@ def scrap_station(weather_station_url):
 
         for date_string, url in url_gen:
             try:
-                print(f'🌞 🌨 ⛈ from {url}')
+                print(f'Scraping data from {url}')
                 history_table = False
                 while not history_table:
                     html_string = session.get(url, timeout=timeout)
@@ -69,7 +69,6 @@ def scrap_station(weather_station_url):
                     if not history_table:
                         print("refreshing session")
                         session = requests.Session()
-
 
                 # parse html table rows
                 data_rows = Parser.parse_html_table(date_string, history_table)
