@@ -15,7 +15,7 @@ python weather_scraper.py
 ```  
 
 ### How to run TWS?
-First, find  the weather stations you are looking for.  
+First, find the weather stations you are looking for.  
 Then you just have to update 2 config files before running TWS. 
 
 1. Go to https://www.wunderground.com/wundermap and zoom in to your location  
@@ -44,12 +44,12 @@ UNIT_SYSTEM = "metric"
 FIND_FIRST_DATE = False
 ```
 
-Now you are read to run your downloads:
+Now you are ready to run your downloads:
 ```sh
 $ python weather_scraper.py
 ```
 Wait until TWS finishes writing your data to files with this naming pattern ***station_name.csv***!  
 
-You resulting CSV file will look something like this (if you give it a nice format)  
+You resulting CSV file will look something like this (if you format it nicely)  
 
 ![CSV example](https://raw.githubusercontent.com/Karlheinzniebuhr/the-weather-scraper/master/resources/csv.JPG)
