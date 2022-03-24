@@ -10,4 +10,4 @@ Todo:
   ✔ add error handling to UnitConverter @done(20-07-03 15:11)
   ✔ Write Dates in YYYY MM DD format @done(20-07-04 11:54)
   ☐ See if there is a way to start downloading from first available date
-  ☐ Write one more column with date_time
+  ✔ Write one more column with date_time

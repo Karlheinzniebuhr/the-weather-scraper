@@ -24,16 +24,7 @@ class ConvertToSystem:
         except Exception as e:
             print(f'{e}! probably caused by an empty row in the data')
             return 'NA'
-            
-    def dew_point(self, dew_point_string: str):
-        try:
-            fahrenheit = float(re.findall(self.extract_numbers_pattern, dew_point_string)[0]) if dew_point_string else 'NA'
-            if self.system == "metric":
-                celsius = (fahrenheit - 32) * 5/9
-                return round(celsius, self.round_to_decimals)
-            else:
-                return fahrenheit
-            
+
         except Exception as e:
             print(f'{e}! probably caused by an empty row in the data')
             return 'NA'
@@ -111,29 +102,31 @@ class ConvertToSystem:
             for key, value in dict.items():
                 if key == 'Date':
                     converted_dict['Date'] = value
-                if key == 'Time':
+                elif key == 'Time':
                     converted_dict['Time'] = value
-                if key ==  'Temperature':
+                elif key == 'Date_time':
+                    converted_dict['Date_time'] = value
+                elif key ==  'Temperature':
                     converted_dict['Temperature'] = self.temperature(value)
-                if key ==  'Dew_Point':
-                    converted_dict['Dew_Point'] = self.dew_point(value)
-                if key ==  'Humidity':
+                elif key ==  'Dew_Point':
+                    converted_dict['Dew_Point'] = self.temperature(value)
+                elif key ==  'Humidity':
                     converted_dict['Humidity'] = self.humidity(value)
-                if key ==  'Wind':
+                elif key ==  'Wind':
                     converted_dict['Wind'] = value
-                if key ==  'Speed':
+                elif key ==  'Speed':
                     converted_dict['Speed'] = self.speed(value)
-                if key ==  'Gust':
+                elif key ==  'Gust':
                     converted_dict['Gust'] = self.speed(value)
-                if key ==  'Pressure':
+                elif key ==  'Pressure':
                     converted_dict['Pressure'] = self.pressure(value)
-                if key ==  'Precip_Rate':
+                elif key ==  'Precip_Rate':
                     converted_dict['Precip_Rate'] = self.precipitation(value)
-                if key ==  'Precip_Accum':
+                elif key ==  'Precip_Accum':
                     converted_dict['Precip_Accum'] = self.precipitation(value)
-                if key ==  'UV':
+                elif key ==  'UV':
                     converted_dict['UV'] = self.uv(value)
-                if key ==  'Solar':
+                elif key ==  'Solar':
                     converted_dict['Solar'] = self.solar(value)
 
             converted_dict_list.append(converted_dict)
