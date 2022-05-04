@@ -24,7 +24,7 @@ UNIT_SYSTEM = config.UNIT_SYSTEM
 FIND_FIRST_DATE = config.FIND_FIRST_DATE
 
 
-def scrap_station(weather_station_url):
+def scrape_station(weather_station_url):
 
     session = requests.Session()
     timeout = 5
@@ -87,4 +87,4 @@ def scrap_station(weather_station_url):
 for url in URLS:
     url = url.strip()
     print(url)
-    scrap_station(url)
+    scrape_station(url)

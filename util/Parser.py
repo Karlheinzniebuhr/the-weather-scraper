@@ -28,8 +28,10 @@ class Parser:
                 if i == 0:
                     date = datetime.strptime(date_string, "%Y-%m-%d")
                     time = datetime.strptime(td_content, "%I:%M %p")
+                    blank = datetime.strptime('','')
                     row_dict['Date'] = date.strftime('%Y/%m/%d')
                     row_dict['Time'] = time.strftime('%I:%M %p')
+                    row_dict['Date_time'] = ((time-blank)+date).strftime('%Y/%m/%d %I:%M:%S')
                 else:
                     row_dict[Parser.format_key(headers_list[i])] = td_content
 
